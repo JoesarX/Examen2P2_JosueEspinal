@@ -1,0 +1,2 @@
+999888777,Negro,Panasonic,5,40,Lithium,Acero,0,Polyester,Cuadrado,15,4,true,20,Cuero,false,true
+7777777777R,Rojo,Sonic,6,80,litio,hierro,6,Cuero,Redondo,6,2,false,13,plastico,true,true

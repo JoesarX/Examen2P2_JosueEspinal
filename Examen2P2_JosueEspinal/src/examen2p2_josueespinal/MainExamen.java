@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -28,46 +29,14 @@ public class MainExamen extends javax.swing.JFrame {
 
     public MainExamen() {
         initComponents();
+        reade();
+        readv();
 
         DefaultComboBoxModel modeloSexo = new DefaultComboBoxModel();
         modeloSexo.addElement('M');
         modeloSexo.addElement('F');
         sex.setModel(modeloSexo);
 
-        vehiculo v = new vehiculo();
-        v.setId("123456789");
-        v.setColor("Rojo");
-        v.setAudio("Sony");
-        v.setAsientos(2);
-
-        bateria b = new bateria();
-        b.setAutonomia(10);
-        b.setMaterial("Litio");
-        v.setBat(b);
-
-        carroceria c = new carroceria();
-        c.setTipo("Hierro");
-        c.setMaletero(30);
-        v.setCar(c);
-
-        interior i = new interior();
-        i.setMaterial("Cuero");
-        i.setVolante("Rueda");
-        i.setBotones(8);
-        v.setInte(i);
-
-        entretenimiento e = new entretenimiento();
-        e.setPantallas(2);
-        e.setVisor(true);
-        e.setAncho(13);
-        v.setEnt(e);
-
-        asientos a = new asientos();
-        a.setMaterial("Cuero");
-        a.setElectrico(true);
-        a.setMasaje(true);
-        v.setAsi(a);
-        ve.add(v);
     }
 
     /**
@@ -912,7 +881,7 @@ public class MainExamen extends javax.swing.JFrame {
             archivo = new File("./Vehiculos.txt");
             canal = new FileWriter(archivo, true);
             ram = new BufferedWriter(canal);
-            String linea = t1.getText()+","+t2.getText() +","+ t3.getText()+","+((int) n1.getValue())+","+((int) n2.getValue())+","+t4.getText()+","+ t5.getText()+","+((int) n3.getValue()) +","+t6.getText() +","+t7.getText() +","+ ((int) n4.getValue())+","+((int) n5.getValue()) +","+b1.isSelected() +","+((int) n6.getValue()) +","+t8.getText() +","+b2.isSelected() +","+ b3.isSelected();
+            String linea = t1.getText() + "," + t2.getText() + "," + t3.getText() + "," + ((int) n1.getValue()) + "," + ((int) n2.getValue()) + "," + t4.getText() + "," + t5.getText() + "," + ((int) n3.getValue()) + "," + t6.getText() + "," + t7.getText() + "," + ((int) n4.getValue()) + "," + ((int) n5.getValue()) + "," + b1.isSelected() + "," + ((int) n6.getValue()) + "," + t8.getText() + "," + b2.isSelected() + "," + b3.isSelected();
             ram.write(linea);
             ram.newLine();
             ram.flush();
@@ -929,7 +898,7 @@ public class MainExamen extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(MainExamen.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         vehiculo v = new vehiculo();
         v.setId(t1.getText());
         t1.setText("");
@@ -1079,7 +1048,7 @@ public class MainExamen extends javax.swing.JFrame {
             archivo = new File("./Ensambladores.txt");
             canal = new FileWriter(archivo, true);
             ram = new BufferedWriter(canal);
-            String linea = tid.getText()+","+ tno.getText()+","+ (char) sex.getSelectedItem()+","+ ((int) age.getValue());
+            String linea = tid.getText() + "," + tno.getText() + "," + (char) sex.getSelectedItem() + "," + ((int) age.getValue());
             ram.write(linea);
             ram.newLine();
             ram.flush();
@@ -1096,7 +1065,7 @@ public class MainExamen extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(MainExamen.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         ensamblador e = new ensamblador(tid.getText(), tno.getText(), (char) sex.getSelectedItem(), ((int) age.getValue()));
         en.add(e);
 
@@ -1119,16 +1088,86 @@ public class MainExamen extends javax.swing.JFrame {
                 me.addElement(en.get(i).getNombre() + " - Ensamblajes:" + en.get(i).getEnsambles());
             }
             cbe.setModel(me);
-            HiloSimulacion hs = new HiloSimulacion(pb,en.get(cbe.getSelectedIndex()).getEnsambles(), jt, en.get(cbe.getSelectedIndex()).getNombre(), 
+            HiloSimulacion hs = new HiloSimulacion(pb, en.get(cbe.getSelectedIndex()).getEnsambles(), jt, en.get(cbe.getSelectedIndex()).getNombre(),
                     ve.get(cbv.getSelectedIndex()).getId());
             Thread proceso1 = new Thread(hs);
             proceso1.start();
         }
 
     }//GEN-LAST:event_jButton2MouseClicked
-    public void readtxt(){
-        
+    public void reade() {
+        File archivo = null;
+        Scanner sc = null;
+        try {
+            //relativo
+            archivo = new File("./Ensambladores.txt");
+            sc = new Scanner(archivo);
+            String linea = "";
+            while (sc.hasNext()) {
+                linea = sc.nextLine();
+                String[] tokens = linea.split(",");
+
+                ensamblador e = new ensamblador(tokens[0], tokens[1], tokens[2].charAt(0), Integer.parseInt(tokens[3]));
+                en.add(e);
+            }
+
+        } catch (Exception e) {
+        }
+        sc.close();
     }
+
+    public void readv() {
+        File archivo = null;
+        Scanner sc = null;
+        try {
+            //relativo
+            archivo = new File("./Vehiculos.txt");
+            sc = new Scanner(archivo);
+            String linea = "";
+            while (sc.hasNext()) {
+                linea = sc.nextLine();
+                String[] tokens = linea.split(",");
+                vehiculo v = new vehiculo();
+                v.setId(tokens[0]);
+                v.setColor(tokens[1]);
+                v.setAudio(tokens[2]);
+                v.setAsientos(Integer.parseInt(tokens[3]));
+
+                bateria b = new bateria();
+                b.setAutonomia(Integer.parseInt(tokens[4]));
+                b.setMaterial(tokens[5]);
+                v.setBat(b);
+
+                carroceria c = new carroceria();
+                c.setTipo(tokens[6]);
+                c.setMaletero(Integer.parseInt(tokens[7]));
+                v.setCar(c);
+
+                interior i = new interior();
+                i.setMaterial(tokens[8]);
+                i.setVolante(tokens[9]);
+                i.setBotones(Integer.parseInt(tokens[10]));
+                v.setInte(i);
+
+                entretenimiento e = new entretenimiento();
+                e.setPantallas(Integer.parseInt(tokens[11]));
+                e.setVisor(Boolean.parseBoolean(tokens[12]));
+                e.setAncho(Integer.parseInt(tokens[13]));
+                v.setEnt(e);
+
+                asientos a = new asientos();
+                a.setMaterial(tokens[14]);
+                a.setElectrico(Boolean.parseBoolean(tokens[15]));
+                a.setMasaje(Boolean.parseBoolean(tokens[16]));
+                v.setAsi(a);
+                ve.add(v);
+            }
+
+        } catch (Exception e) {
+        }
+        sc.close();
+    }
+
     public void maddv() {
         addV.setModal(true);
         addV.pack();
