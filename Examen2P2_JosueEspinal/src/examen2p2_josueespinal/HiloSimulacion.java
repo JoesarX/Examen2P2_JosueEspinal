@@ -180,6 +180,7 @@ public class HiloSimulacion extends Thread {
         }
         Random rng = new Random();
         int prob = rng.nextInt(99);
+        System.out.println(prob);
         if (fallo <= 5 && prob <= 30) {
             try {
                 fail();
@@ -204,7 +205,10 @@ public class HiloSimulacion extends Thread {
             } catch (IOException ex) {
                 Logger.getLogger(HiloSimulacion.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }else{
+            JOptionPane.showMessageDialog(null, "El ensamblaje fue exitoso. Que gran trabajo el de " + nombre + ".");
         }
+        
 
     }
 

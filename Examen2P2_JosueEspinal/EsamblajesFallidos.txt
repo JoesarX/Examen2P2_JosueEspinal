@@ -1,1 +1,3 @@
 RESUMEN DE LOS ENSAMBLAJES FALLIDOS:
+
+Ricardo Arjona fallo en el ensamblaje del vehiculo ID:999888777

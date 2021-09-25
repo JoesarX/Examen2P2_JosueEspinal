@@ -1099,15 +1099,15 @@ public class MainExamen extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(addE, "Asegurese de haber seleccionado un vehiculo y un ensamblador.");
         } else {
             en.get(cbe.getSelectedIndex()).setEnsambles(en.get(cbe.getSelectedIndex()).getEnsambles() + 1);
+            HiloSimulacion hs = new HiloSimulacion(pb, en.get(cbe.getSelectedIndex()).getEnsambles(), jt, en.get(cbe.getSelectedIndex()).getNombre(),
+                    ve.get(cbv.getSelectedIndex()).getId());
+            Thread proceso1 = new Thread(hs);
+            proceso1.start();
             DefaultComboBoxModel me = new DefaultComboBoxModel();
             for (int i = 0; i < en.size(); i++) {
                 me.addElement(en.get(i).getNombre() + " - Ensamblajes:" + en.get(i).getEnsambles());
             }
             cbe.setModel(me);
-            HiloSimulacion hs = new HiloSimulacion(pb, en.get(cbe.getSelectedIndex()).getEnsambles(), jt, en.get(cbe.getSelectedIndex()).getNombre(),
-                    ve.get(cbv.getSelectedIndex()).getId());
-            Thread proceso1 = new Thread(hs);
-            proceso1.start();
         }
 
     }//GEN-LAST:event_jButton2MouseClicked
